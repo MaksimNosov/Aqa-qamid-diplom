@@ -36,8 +36,16 @@ public class DataHelper {
         return "5555 6666 7777 8888";
     }
 
-    public static String getRandomCardNumber() {
+    public static String getRandomCardNumberValidFormat() {
         return faker.business().creditCardNumber();
+    }
+
+    public static String getRandomCardNumberInvalidFormat() {
+        return faker.numerify("########");
+    }
+
+    public static String getEmptyCardNumber() {
+        return "";
     }
 
     public static String getCurrentMonth() {
@@ -48,6 +56,10 @@ public class DataHelper {
         return Integer.toString(Integer.valueOf(LocalDate.now().format(DateTimeFormatter.ofPattern("MM"))) - 1);
     }
 
+    public static String getEmptyMonth() {
+        return "";
+    }
+
     public static String getCurrentYear() {
         return LocalDate.now().format(DateTimeFormatter.ofPattern("yy"));
     }
@@ -56,21 +68,29 @@ public class DataHelper {
         return Integer.toString(Integer.valueOf(LocalDate.now().format(DateTimeFormatter.ofPattern("yy"))) - 1);
     }
 
+    public static String getEmptyYear() {
+        return "";
+    }
+
     public static String getValidCardOwner() {
         return faker.name().fullName();
+    }
+
+    public static String getCardOwnerSpecSymbol() {
+        return faker.name().fullName() + "=-+!@?.,";
     }
 
     public static String getInvalidCardOwnerByNumber() {
         return faker.name().fullName() + faker.business().creditCardNumber();
     }
 
-    public static String getInvalidCardOwnerBySpecSymbol() {
-        return faker.name().fullName() + "!?@";
-    }
-
     public static String getInvalidCardOwnerByRus() {
         Faker fakerOnRus = new Faker(new Locale("ru"));
         return fakerOnRus.name().fullName();
+    }
+
+    public static String getEmptyCardOwner() {
+        return "";
     }
 
     public static String getRandomCvcCode() {
@@ -79,6 +99,10 @@ public class DataHelper {
 
     public static String getInvalidCvcCode() {
         return faker.numerify("##");
+    }
+
+    public static String getEmptyCvcCode() {
+        return "";
     }
 
     public static InfoForPayByCard getValidInfoForPayByCard() {
