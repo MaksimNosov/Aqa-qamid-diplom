@@ -92,9 +92,7 @@ public class PaymentPage {
         return new PaymentPage();
     }
 
-
     public void successfulPayment(DataHelper.InfoForPayByCard info) {
-//        forPayButton.click();
         cardNumberField.setValue(info.getCardNumber());
         monthField.setValue(info.getMonth());
         yearField.setValue(info.getYear());
@@ -102,7 +100,6 @@ public class PaymentPage {
         cvcCodeField.setValue(info.getCvcCode());
         payButton.click();
         successNotification.shouldBe(visible, Duration.ofSeconds(validDuration));
-//        return new PaymentPage();
     }
 
     public void declinedPayment(DataHelper.InfoForPayByCard info) {
@@ -113,10 +110,10 @@ public class PaymentPage {
         cvcCodeField.setValue(info.getCvcCode());
         payButton.click();
         bankFailureNotification.shouldBe(visible, Duration.ofSeconds(validDuration));
+        successNotification.shouldNotBe(visible);
     }
 
     public void invalidPayment(DataHelper.InfoForPayByCard info) {
-
         cardNumberField.setValue(info.getCardNumber());
         monthField.setValue(info.getMonth());
         yearField.setValue(info.getYear());

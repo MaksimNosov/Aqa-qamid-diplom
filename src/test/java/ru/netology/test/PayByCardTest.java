@@ -1,5 +1,10 @@
 package ru.netology.test;
 
+import com.codeborne.selenide.logevents.SelenideLogger;
+import io.qameta.allure.selenide.AllureSelenide;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.netology.data.DataHelper;
 import ru.netology.pages.ChoiceOfPaymentVariantPage;
@@ -8,21 +13,31 @@ import ru.netology.pages.PaymentPage;
 import static com.codeborne.selenide.Selenide.*;
 
 public class PayByCardTest {
+    @BeforeAll
+    static void setUpAll() {
+        SelenideLogger.addListener("allure", new AllureSelenide());
+    }
 
-    @Test
-    void successfulPayment() {
+    @AfterAll
+    static void tearDownAll() {
+        SelenideLogger.removeListener("allure");
+    }
+
+    @BeforeEach
+    void setUp() {
         var choiceOfPaymentVariantPage = open("http://localhost:8080/",
                 ChoiceOfPaymentVariantPage.class);
         choiceOfPaymentVariantPage.payByCard();
+    }
+
+    @Test
+    void successfulPayment() {
         PaymentPage make = new PaymentPage();
         make.makeSuccessfulPayment(DataHelper.getValidInfoForPayByCard());
     }
 
     @Test
-    void declinedPayment() { //падает, issue
-        var choiceOfPaymentVariantPage = open("http://localhost:8080/",
-                ChoiceOfPaymentVariantPage.class);
-        choiceOfPaymentVariantPage.payByCard();
+    void declinedPayment() { //падает, issue 1
         PaymentPage make = new PaymentPage();
         DataHelper.InfoForPayByCard info = new DataHelper.InfoForPayByCard(DataHelper.getDeclinedCardNumber(),
                 DataHelper.getCurrentMonth(), DataHelper.getCurrentYear(), DataHelper.getValidCardOwner(),
@@ -31,10 +46,7 @@ public class PayByCardTest {
     }
 
     @Test
-    void randomCardNumberValidFormat() {
-        var choiceOfPaymentVariantPage = open("http://localhost:8080/",
-                ChoiceOfPaymentVariantPage.class);
-        choiceOfPaymentVariantPage.payByCard();
+    void randomCardNumberValidFormat() { //падает, issue 7
         PaymentPage make = new PaymentPage();
         DataHelper.InfoForPayByCard info = new DataHelper.InfoForPayByCard(DataHelper.getRandomCardNumberValidFormat(),
                 DataHelper.getCurrentMonth(), DataHelper.getCurrentYear(), DataHelper.getValidCardOwner(),
@@ -44,9 +56,6 @@ public class PayByCardTest {
 
     @Test
     void randomCardNumberInvalidFormat() {
-        var choiceOfPaymentVariantPage = open("http://localhost:8080/",
-                ChoiceOfPaymentVariantPage.class);
-        choiceOfPaymentVariantPage.payByCard();
         PaymentPage make = new PaymentPage();
         DataHelper.InfoForPayByCard info = new DataHelper.InfoForPayByCard(DataHelper.getRandomCardNumberInvalidFormat(),
                 DataHelper.getCurrentMonth(), DataHelper.getCurrentYear(), DataHelper.getValidCardOwner(),
@@ -56,9 +65,6 @@ public class PayByCardTest {
 
     @Test
     void emptyCardNumber() {
-        var choiceOfPaymentVariantPage = open("http://localhost:8080/",
-                ChoiceOfPaymentVariantPage.class);
-        choiceOfPaymentVariantPage.payByCard();
         PaymentPage make = new PaymentPage();
         DataHelper.InfoForPayByCard info = new DataHelper.InfoForPayByCard(DataHelper.getEmptyCardNumber(),
                 DataHelper.getCurrentMonth(), DataHelper.getCurrentYear(), DataHelper.getValidCardOwner(),
@@ -68,24 +74,18 @@ public class PayByCardTest {
 
     @Test
     void lastMonth() {
-        var choiceOfPaymentVariantPage = open("http://localhost:8080/",
-                ChoiceOfPaymentVariantPage.class);
-        choiceOfPaymentVariantPage.payByCard();
         PaymentPage make = new PaymentPage();
         String year = DataHelper.getCurrentYear();
         if (Integer.valueOf(DataHelper.getCurrentMonth()) == 1) {
             year = String.valueOf((Integer.valueOf(DataHelper.getCurrentYear()) - 1));
         }
         DataHelper.InfoForPayByCard info = new DataHelper.InfoForPayByCard(DataHelper.getApprovedCardNumber(),
-                DataHelper.getPastMonth(), year, DataHelper.getValidCardOwner(), DataHelper.getRandomCvcCode());
+                DataHelper.getLastMonth(), year, DataHelper.getValidCardOwner(), DataHelper.getRandomCvcCode());
         make.makePaymentInvalidMonth(info);
     }
 
     @Test
     void monthPlus12() {
-        var choiceOfPaymentVariantPage = open("http://localhost:8080/",
-                ChoiceOfPaymentVariantPage.class);
-        choiceOfPaymentVariantPage.payByCard();
         PaymentPage make = new PaymentPage();
         String invalidMonth = String.valueOf(Integer.valueOf(DataHelper.getCurrentMonth()) + 12);
         DataHelper.InfoForPayByCard info = new DataHelper.InfoForPayByCard(DataHelper.getApprovedCardNumber(),
@@ -95,9 +95,6 @@ public class PayByCardTest {
 
     @Test
     void emptyMonth() {
-        var choiceOfPaymentVariantPage = open("http://localhost:8080/",
-                ChoiceOfPaymentVariantPage.class);
-        choiceOfPaymentVariantPage.payByCard();
         PaymentPage make = new PaymentPage();
         DataHelper.InfoForPayByCard info = new DataHelper.InfoForPayByCard(DataHelper.getApprovedCardNumber(),
                 DataHelper.getEmptyMonth(), DataHelper.getCurrentYear(), DataHelper.getValidCardOwner(),
@@ -106,21 +103,16 @@ public class PayByCardTest {
     }
 
     @Test
-    void pastYear() {
-        var choiceOfPaymentVariantPage = open("http://localhost:8080/",
-                ChoiceOfPaymentVariantPage.class);
-        choiceOfPaymentVariantPage.payByCard();
+    void lastYear() {
         PaymentPage make = new PaymentPage();
         DataHelper.InfoForPayByCard info = new DataHelper.InfoForPayByCard(DataHelper.getApprovedCardNumber(),
-                DataHelper.getCurrentMonth(), DataHelper.getPastYear(), DataHelper.getValidCardOwner(),
+                DataHelper.getCurrentMonth(), DataHelper.getLastYear(), DataHelper.getValidCardOwner(),
                 DataHelper.getRandomCvcCode());
         make.makePaymentInvalidYear(info);
     }
+
     @Test
     void emptyYear() {
-        var choiceOfPaymentVariantPage = open("http://localhost:8080/",
-                ChoiceOfPaymentVariantPage.class);
-        choiceOfPaymentVariantPage.payByCard();
         PaymentPage make = new PaymentPage();
         DataHelper.InfoForPayByCard info = new DataHelper.InfoForPayByCard(DataHelper.getApprovedCardNumber(),
                 DataHelper.getCurrentMonth(), DataHelper.getEmptyYear(), DataHelper.getValidCardOwner(),
@@ -129,10 +121,7 @@ public class PayByCardTest {
     }
 
     @Test
-    void cardOwnerPlusSpecSymbol() { //падает, issue
-        var choiceOfPaymentVariantPage = open("http://localhost:8080/",
-                ChoiceOfPaymentVariantPage.class);
-        choiceOfPaymentVariantPage.payByCard();
+    void cardOwnerPlusSpecSymbol() { //падает, issue 2
         PaymentPage make = new PaymentPage();
         DataHelper.InfoForPayByCard info = new DataHelper.InfoForPayByCard(DataHelper.getApprovedCardNumber(),
                 DataHelper.getCurrentMonth(), DataHelper.getCurrentYear(), DataHelper.getCardOwnerSpecSymbol(),
@@ -141,10 +130,7 @@ public class PayByCardTest {
     }
 
     @Test
-    void cardOwnerPlusNumber() { //падает, issue
-        var choiceOfPaymentVariantPage = open("http://localhost:8080/",
-                ChoiceOfPaymentVariantPage.class);
-        choiceOfPaymentVariantPage.payByCard();
+    void cardOwnerPlusNumber() { //падает, issue 3
         PaymentPage make = new PaymentPage();
         DataHelper.InfoForPayByCard info = new DataHelper.InfoForPayByCard(DataHelper.getApprovedCardNumber(),
                 DataHelper.getCurrentMonth(), DataHelper.getCurrentYear(), DataHelper.getInvalidCardOwnerByNumber(),
@@ -153,10 +139,7 @@ public class PayByCardTest {
     }
 
     @Test
-    void cardOwnerByRus() { //падает, issue
-        var choiceOfPaymentVariantPage = open("http://localhost:8080/",
-                ChoiceOfPaymentVariantPage.class);
-        choiceOfPaymentVariantPage.payByCard();
+    void cardOwnerByRus() { //падает, issue 4
         PaymentPage make = new PaymentPage();
         DataHelper.InfoForPayByCard info = new DataHelper.InfoForPayByCard(DataHelper.getApprovedCardNumber(),
                 DataHelper.getCurrentMonth(), DataHelper.getCurrentYear(), DataHelper.getInvalidCardOwnerByRus(),
@@ -166,9 +149,6 @@ public class PayByCardTest {
 
     @Test
     void emptyCardOwner() {
-        var choiceOfPaymentVariantPage = open("http://localhost:8080/",
-                ChoiceOfPaymentVariantPage.class);
-        choiceOfPaymentVariantPage.payByCard();
         PaymentPage make = new PaymentPage();
         DataHelper.InfoForPayByCard info = new DataHelper.InfoForPayByCard(DataHelper.getApprovedCardNumber(),
                 DataHelper.getCurrentMonth(), DataHelper.getCurrentYear(), DataHelper.getEmptyCardOwner(),
@@ -178,9 +158,6 @@ public class PayByCardTest {
 
     @Test
     void invalidCvcCode() {
-        var choiceOfPaymentVariantPage = open("http://localhost:8080/",
-                ChoiceOfPaymentVariantPage.class);
-        choiceOfPaymentVariantPage.payByCard();
         PaymentPage make = new PaymentPage();
         DataHelper.InfoForPayByCard info = new DataHelper.InfoForPayByCard(DataHelper.getApprovedCardNumber(),
                 DataHelper.getCurrentMonth(), DataHelper.getCurrentYear(), DataHelper.getValidCardOwner(),
@@ -189,10 +166,7 @@ public class PayByCardTest {
     }
 
     @Test
-    void emptyCvcCode() { //падает, issue
-        var choiceOfPaymentVariantPage = open("http://localhost:8080/",
-                ChoiceOfPaymentVariantPage.class);
-        choiceOfPaymentVariantPage.payByCard();
+    void emptyCvcCode() { //падает, issue 5
         PaymentPage make = new PaymentPage();
         DataHelper.InfoForPayByCard info = new DataHelper.InfoForPayByCard(DataHelper.getApprovedCardNumber(),
                 DataHelper.getCurrentMonth(), DataHelper.getCurrentYear(), DataHelper.getValidCardOwner(),

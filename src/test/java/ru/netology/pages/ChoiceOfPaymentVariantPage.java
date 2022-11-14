@@ -14,6 +14,7 @@ public class ChoiceOfPaymentVariantPage {
         forPayByCardButton.click();
         return new ChoiceOfPaymentVariantPage();
     }
+
     public ChoiceOfPaymentVariantPage payByCredit() {
         forPayByCreditButton.click();
         return new ChoiceOfPaymentVariantPage();

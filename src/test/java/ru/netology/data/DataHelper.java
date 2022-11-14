@@ -52,7 +52,7 @@ public class DataHelper {
         return LocalDate.now().format(DateTimeFormatter.ofPattern("MM"));
     }
 
-    public static String getPastMonth() {
+    public static String getLastMonth() {
         return Integer.toString(Integer.valueOf(LocalDate.now().format(DateTimeFormatter.ofPattern("MM"))) - 1);
     }
 
@@ -64,7 +64,7 @@ public class DataHelper {
         return LocalDate.now().format(DateTimeFormatter.ofPattern("yy"));
     }
 
-    public static String getPastYear() {
+    public static String getLastYear() {
         return Integer.toString(Integer.valueOf(LocalDate.now().format(DateTimeFormatter.ofPattern("yy"))) - 1);
     }
 
