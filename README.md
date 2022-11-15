@@ -1,0 +1,1 @@
+[![Build status](https://ci.appveyor.com/api/projects/status/koeaghivunv60fab?svg=true)](https://ci.appveyor.com/project/MaksimNosov/aqa-qamid-diplom)
