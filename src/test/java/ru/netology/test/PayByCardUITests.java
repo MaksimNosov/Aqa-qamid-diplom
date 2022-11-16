@@ -12,7 +12,7 @@ import ru.netology.pages.PaymentPage;
 
 import static com.codeborne.selenide.Selenide.*;
 
-public class PayByCardTest {
+public class PayByCardUITests {
     @BeforeAll
     static void setUpAll() {
         SelenideLogger.addListener("allure", new AllureSelenide());

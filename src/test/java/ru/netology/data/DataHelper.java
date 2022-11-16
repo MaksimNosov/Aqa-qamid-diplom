@@ -19,7 +19,9 @@ public class DataHelper {
     private DataHelper() {
     }
 
-    @Value
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class InfoForPayByCard {
         String cardNumber;
         String month;
@@ -107,5 +109,15 @@ public class DataHelper {
 
     public static InfoForPayByCard getValidInfoForPayByCard() {
         return new InfoForPayByCard(getApprovedCardNumber(), getCurrentMonth(), getCurrentYear(), getValidCardOwner(), getRandomCvcCode());
+    }
+
+    public static String createJSON(InfoForPayByCard info) {
+        return "{\n" +
+                "  \"number\": \"" + info.getCardNumber() + "\",\n" +
+                "  \"year\": \"" + info.getMonth() + "\",\n" +
+                "  \"month\": \"" + info.getYear() + "\",\n" +
+                "  \"holder\": \"" + info.getCardOwner() + "\",\n" +
+                "  \"cvc\": \"" + info.getCvcCode() + "\"\n" +
+                "}";
     }
 }
