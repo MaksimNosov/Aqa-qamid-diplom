@@ -27,6 +27,11 @@ public class SQLTests {
         SQLHelper.cleanDatabase();
     }
 
+    @AfterEach
+    void cleanDB() {
+        SQLHelper.cleanDatabase();
+    }
+
     @Test
     void successfulPayment() {
         var choiceOfPaymentVariantPage = open("http://localhost:8080/",
