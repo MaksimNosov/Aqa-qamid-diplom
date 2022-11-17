@@ -8,6 +8,7 @@ import java.time.Duration;
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.sleep;
 
 public class CreditPage {
 
@@ -33,7 +34,7 @@ public class CreditPage {
     private SelenideElement payButton = $(byText("Продолжить"));
     private SelenideElement successNotification = $(byText(successMsg)).parent().$(".notification__content");
     private SelenideElement bankFailureNotification = $(byText(bankFailureMsg));
-    Integer validDuration = 10;
+    Integer validDuration = 12;
 
     public CreditPage() {
         heading.shouldBe(visible);
@@ -83,6 +84,16 @@ public class CreditPage {
         payButton.click();
         bankFailureNotification.shouldBe(visible, Duration.ofSeconds(validDuration));
         successNotification.shouldNotBe(visible);
+    }
+
+    public void declinedPaymentWithoutCheck(DataHelper.InfoForPayByCard info) {
+        cardNumberField.setValue(info.getCardNumber());
+        monthField.setValue(info.getMonth());
+        yearField.setValue(info.getYear());
+        cardOwnerField.setValue(info.getCardOwner());
+        cvcCodeField.setValue(info.getCvcCode());
+        payButton.click();
+        sleep(validDuration * 1000);
     }
 
     public void invalidPayment(DataHelper.InfoForPayByCard info) {

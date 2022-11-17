@@ -1,8 +1,6 @@
 package ru.netology.pages;
 
-import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
-import org.openqa.selenium.Keys;
 import ru.netology.data.DataHelper;
 
 import java.time.Duration;
@@ -61,7 +59,7 @@ public class PaymentPage {
     //    private SelenideElement successNotification = $x(successMsg);
     private SelenideElement bankFailureNotification = $(byText(bankFailureMsg));
     //    private SelenideElement bankFailureNotification = $x(bankFailureMsg);
-    Integer validDuration = 10;
+    Integer validDuration = 12;
 
     public PaymentPage() {
         heading.shouldBe(visible);
@@ -111,6 +109,16 @@ public class PaymentPage {
         payButton.click();
         bankFailureNotification.shouldBe(visible, Duration.ofSeconds(validDuration));
         successNotification.shouldNotBe(visible);
+    }
+
+    public void declinedPaymentWithoutCheck(DataHelper.InfoForPayByCard info) {
+        cardNumberField.setValue(info.getCardNumber());
+        monthField.setValue(info.getMonth());
+        yearField.setValue(info.getYear());
+        cardOwnerField.setValue(info.getCardOwner());
+        cvcCodeField.setValue(info.getCvcCode());
+        payButton.click();
+        sleep(validDuration * 1000);
     }
 
     public void invalidPayment(DataHelper.InfoForPayByCard info) {
