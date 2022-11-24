@@ -13,15 +13,25 @@ public class SQLHelper {
     private SQLHelper() {
     }
 
+    private final static String dbUrlDefault = "jdbc:mysql://localhost:3306/db";
+
+    public static String getDbUrl() {
+        String dbUrl = System.getProperty("db.url");
+        if (dbUrl.isEmpty()) {
+            dbUrl = dbUrlDefault;
+        }
+        return dbUrl;
+    }
+
     @SneakyThrows
-    private static Connection getConnMySQL() {
-        return DriverManager.getConnection("jdbc:mysql://localhost:3306/db", "app", "9mREsvXDs9Gk89EF");
+    private static Connection getConnSQL() {
+        return DriverManager.getConnection(getDbUrl(), System.getProperty("login"), System.getProperty("password"));
     }
 
     @SneakyThrows
     public static String getOperationStatusOfPayment() {
         var codeSQL = "SELECT status FROM payment_entity";
-        try (var conn = getConnMySQL()) {
+        try (var conn = getConnSQL()) {
             var result = runner.query(conn, codeSQL, new ScalarHandler<String>());
             return (result);
         }
@@ -30,7 +40,7 @@ public class SQLHelper {
     @SneakyThrows
     public static String getOperationStatusOfCredit() {
         var codeSQL = "SELECT status FROM credit_request_entity";
-        try (var conn = getConnMySQL()) {
+        try (var conn = getConnSQL()) {
             var result = runner.query(conn, codeSQL, new ScalarHandler<String>());
             return (result);
         }
@@ -38,7 +48,7 @@ public class SQLHelper {
 
     @SneakyThrows
     public static void cleanDatabase() {
-        var connection = getConnMySQL();
+        var connection = getConnSQL();
         runner.execute(connection, "DELETE FROM credit_request_entity");
         runner.execute(connection, "DELETE FROM order_entity");
         runner.execute(connection, "DELETE FROM payment_entity");
