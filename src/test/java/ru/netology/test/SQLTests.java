@@ -12,25 +12,25 @@ import ru.netology.pages.PaymentPage;
 import static com.codeborne.selenide.Selenide.*;
 
 public class SQLTests {
-    @BeforeAll
-    static void setUpAll() {
-        SelenideLogger.addListener("allure", new AllureSelenide());
-    }
-
-    @AfterAll
-    static void tearDownAll() {
-        SelenideLogger.removeListener("allure");
-    }
-
-    @BeforeEach
-    void setUp() {
-        SQLHelper.cleanDatabase();
-    }
-
-    @AfterEach
-    void cleanDB() {
-        SQLHelper.cleanDatabase();
-    }
+//    @BeforeAll
+//    static void setUpAll() {
+//        SelenideLogger.addListener("allure", new AllureSelenide());
+//    }
+//
+//    @AfterAll
+//    static void tearDownAll() {
+//        SelenideLogger.removeListener("allure");
+//    }
+//
+//    @BeforeEach
+//    void setUp() {
+//        SQLHelper.cleanDatabase();
+//    }
+//
+//    @AfterEach
+//    void cleanDB() {
+//        SQLHelper.cleanDatabase();
+//    }
 
     @Test
     void successfulPayment() {
@@ -41,66 +41,73 @@ public class SQLTests {
         make.successfulPayment(DataHelper.getValidInfoForPayByCard());
         Assertions.assertEquals("APPROVED", SQLHelper.getOperationStatusOfPayment());
     }
+//
+//    @Test
+//    void declinedPayment() {
+//        var choiceOfPaymentVariantPage = open("http://localhost:8080/",
+//                ChoiceOfPaymentVariantPage.class);
+//        choiceOfPaymentVariantPage.payByCard();
+//        PaymentPage make = new PaymentPage();
+//        DataHelper.InfoForPayByCard info = new DataHelper.InfoForPayByCard(DataHelper.getDeclinedCardNumber(),
+//                DataHelper.getCurrentMonth(), DataHelper.getCurrentYear(), DataHelper.getValidCardOwner(),
+//                DataHelper.getRandomCvcCode());
+//        make.declinedPaymentWithoutCheck(info);
+//        Assertions.assertEquals("DECLINED", SQLHelper.getOperationStatusOfPayment());
+//    }
+//
+//    @Test
+//    void randomCardValidFormatPayment() {
+//        var choiceOfPaymentVariantPage = open("http://localhost:8080/",
+//                ChoiceOfPaymentVariantPage.class);
+//        choiceOfPaymentVariantPage.payByCard();
+//        PaymentPage make = new PaymentPage();
+//        DataHelper.InfoForPayByCard info = new DataHelper.InfoForPayByCard(DataHelper.getRandomCardNumberValidFormat(),
+//                DataHelper.getCurrentMonth(), DataHelper.getCurrentYear(), DataHelper.getValidCardOwner(),
+//                DataHelper.getRandomCvcCode());
+//        make.declinedPaymentWithoutCheck(info);
+//        Assertions.assertEquals(null, SQLHelper.getOperationStatusOfPayment());
+//    }
+//
+//    @Test
+//    void successfulCredit() {
+//        var choiceOfPaymentVariantPage = open("http://localhost:8080/",
+//                ChoiceOfPaymentVariantPage.class);
+//        choiceOfPaymentVariantPage.payByCredit();
+//        CreditPage make = new CreditPage();
+//        make.makeSuccessfulPayment(DataHelper.getValidInfoForPayByCard());
+//        Assertions.assertEquals("APPROVED", SQLHelper.getOperationStatusOfCredit());
+//    }
+//
+//    @Test
+//    void declinedCredit() {
+//        var choiceOfPaymentVariantPage = open("http://localhost:8080/",
+//                ChoiceOfPaymentVariantPage.class);
+//        choiceOfPaymentVariantPage.payByCredit();
+//        CreditPage make = new CreditPage();
+//        DataHelper.InfoForPayByCard info = new DataHelper.InfoForPayByCard(DataHelper.getDeclinedCardNumber(),
+//                DataHelper.getCurrentMonth(), DataHelper.getCurrentYear(), DataHelper.getValidCardOwner(),
+//                DataHelper.getRandomCvcCode());
+//        make.declinedPaymentWithoutCheck(info);
+//        Assertions.assertEquals("DECLINED", SQLHelper.getOperationStatusOfCredit());
+//    }
+//
+//    @Test
+//    void randomCardValidDeclinedCredit() {
+//        var choiceOfPaymentVariantPage = open("http://localhost:8080/",
+//                ChoiceOfPaymentVariantPage.class);
+//        choiceOfPaymentVariantPage.payByCredit();
+//        CreditPage make = new CreditPage();
+//        DataHelper.InfoForPayByCard info = new DataHelper.InfoForPayByCard(DataHelper.getRandomCardNumberValidFormat(),
+//                DataHelper.getCurrentMonth(), DataHelper.getCurrentYear(), DataHelper.getValidCardOwner(),
+//                DataHelper.getRandomCvcCode());
+//        make.declinedPaymentWithoutCheck(info);
+//        Assertions.assertEquals(null, SQLHelper.getOperationStatusOfCredit());
+//    }
 
     @Test
-    void declinedPayment() {
-        var choiceOfPaymentVariantPage = open("http://localhost:8080/",
-                ChoiceOfPaymentVariantPage.class);
-        choiceOfPaymentVariantPage.payByCard();
-        PaymentPage make = new PaymentPage();
-        DataHelper.InfoForPayByCard info = new DataHelper.InfoForPayByCard(DataHelper.getDeclinedCardNumber(),
-                DataHelper.getCurrentMonth(), DataHelper.getCurrentYear(), DataHelper.getValidCardOwner(),
-                DataHelper.getRandomCvcCode());
-        make.declinedPaymentWithoutCheck(info);
-        Assertions.assertEquals("DECLINED", SQLHelper.getOperationStatusOfPayment());
-    }
-
-    @Test
-    void randomCardValidFormatPayment() {
-        var choiceOfPaymentVariantPage = open("http://localhost:8080/",
-                ChoiceOfPaymentVariantPage.class);
-        choiceOfPaymentVariantPage.payByCard();
-        PaymentPage make = new PaymentPage();
-        DataHelper.InfoForPayByCard info = new DataHelper.InfoForPayByCard(DataHelper.getRandomCardNumberValidFormat(),
-                DataHelper.getCurrentMonth(), DataHelper.getCurrentYear(), DataHelper.getValidCardOwner(),
-                DataHelper.getRandomCvcCode());
-        make.declinedPaymentWithoutCheck(info);
-        Assertions.assertEquals(null, SQLHelper.getOperationStatusOfPayment());
-    }
-
-    @Test
-    void successfulCredit() {
-        var choiceOfPaymentVariantPage = open("http://localhost:8080/",
-                ChoiceOfPaymentVariantPage.class);
-        choiceOfPaymentVariantPage.payByCredit();
-        CreditPage make = new CreditPage();
-        make.makeSuccessfulPayment(DataHelper.getValidInfoForPayByCard());
-        Assertions.assertEquals("APPROVED", SQLHelper.getOperationStatusOfCredit());
-    }
-
-    @Test
-    void declinedCredit() {
-        var choiceOfPaymentVariantPage = open("http://localhost:8080/",
-                ChoiceOfPaymentVariantPage.class);
-        choiceOfPaymentVariantPage.payByCredit();
-        CreditPage make = new CreditPage();
-        DataHelper.InfoForPayByCard info = new DataHelper.InfoForPayByCard(DataHelper.getDeclinedCardNumber(),
-                DataHelper.getCurrentMonth(), DataHelper.getCurrentYear(), DataHelper.getValidCardOwner(),
-                DataHelper.getRandomCvcCode());
-        make.declinedPaymentWithoutCheck(info);
-        Assertions.assertEquals("DECLINED", SQLHelper.getOperationStatusOfCredit());
-    }
-
-    @Test
-    void randomCardValidDeclinedCredit() {
-        var choiceOfPaymentVariantPage = open("http://localhost:8080/",
-                ChoiceOfPaymentVariantPage.class);
-        choiceOfPaymentVariantPage.payByCredit();
-        CreditPage make = new CreditPage();
-        DataHelper.InfoForPayByCard info = new DataHelper.InfoForPayByCard(DataHelper.getRandomCardNumberValidFormat(),
-                DataHelper.getCurrentMonth(), DataHelper.getCurrentYear(), DataHelper.getValidCardOwner(),
-                DataHelper.getRandomCvcCode());
-        make.declinedPaymentWithoutCheck(info);
-        Assertions.assertEquals(null, SQLHelper.getOperationStatusOfCredit());
+    void url() {
+        System.out.println("System.getProperty('spring.datasource.url') = " + System.getProperty("spring.datasource.url"));
+        System.out.println(("System.getProperty('spring.datasource.username') = " + System.getProperty("spring.datasource.username")));
+        System.out.println(("System.getProperty('spring.datasource.password') = " + System.getProperty("spring.datasource.password")));
     }
 }

@@ -13,19 +13,19 @@ public class SQLHelper {
     private SQLHelper() {
     }
 
-    private final static String dbUrlDefault = "jdbc:mysql://localhost:3306/db";
-
-    public static String getDbUrl() {
-        String dbUrl = System.getProperty("db.url");
-        if (dbUrl.isEmpty()) {
-            dbUrl = dbUrlDefault;
-        }
-        return dbUrl;
-    }
+//    private final static String dbUrlDefault = "jdbc:mysql://localhost:3306/db/DEFAULT";
+//
+//    public static String getDbUrl() {
+//        String dbUrl = System.getProperty("spring.datasource.url");
+//        if (dbUrl.isEmpty()) {
+//            dbUrl = dbUrlDefault;
+//        }
+//        return dbUrl;
+//    }
 
     @SneakyThrows
     private static Connection getConnSQL() {
-        return DriverManager.getConnection(getDbUrl(), System.getProperty("login"), System.getProperty("password"));
+        return DriverManager.getConnection(System.getProperty("spring.datasource.url"), System.getProperty("spring.datasource.username"), System.getProperty("spring.datasource.password"));
     }
 
     @SneakyThrows
