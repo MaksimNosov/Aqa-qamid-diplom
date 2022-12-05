@@ -104,10 +104,15 @@ public class SQLTests {
 //        Assertions.assertEquals(null, SQLHelper.getOperationStatusOfCredit());
 //    }
 
+//    @Test
+//    void url() {
+//        System.out.println("System.getProperty('spring.datasource.url') = " + System.getProperty("spring.datasource.url"));
+//        System.out.println(("System.getProperty('spring.datasource.username') = " + System.getProperty("spring.datasource.username")));
+//        System.out.println(("System.getProperty('spring.datasource.password') = " + System.getProperty("spring.datasource.password")));
+//    }
+
     @Test
     void url() {
-        System.out.println("System.getProperty('spring.datasource.url') = " + System.getProperty("spring.datasource.url"));
-        System.out.println(("System.getProperty('spring.datasource.username') = " + System.getProperty("spring.datasource.username")));
-        System.out.println(("System.getProperty('spring.datasource.password') = " + System.getProperty("spring.datasource.password")));
+        System.out.println("System.getProperty('datasource') = " + System.getProperty("datasource"));
     }
 }

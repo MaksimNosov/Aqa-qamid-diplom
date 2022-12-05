@@ -25,7 +25,8 @@ public class SQLHelper {
 
     @SneakyThrows
     private static Connection getConnSQL() {
-        return DriverManager.getConnection(System.getProperty("spring.datasource.url"), System.getProperty("spring.datasource.username"), System.getProperty("spring.datasource.password"));
+//        return DriverManager.getConnection(System.getProperty("spring.datasource.url"), System.getProperty("spring.datasource.username"), System.getProperty("spring.datasource.password"));
+        return DriverManager.getConnection(System.getProperty("datasource"), "app", "pass");
     }
 
     @SneakyThrows
