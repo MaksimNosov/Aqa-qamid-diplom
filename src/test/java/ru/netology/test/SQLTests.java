@@ -113,6 +113,8 @@ public class SQLTests {
 
     @Test
     void url() {
-        System.out.println("System.getProperty('datasource') = " + System.getProperty("datasource"));
+        System.out.println("System.getProperty('db.url') = " + System.getProperty("db.url"));
+        System.out.println("System.getProperty('db.user') = " + System.getProperty("db.user"));
+        System.out.println("System.getProperty('db.password') = " + System.getProperty("db.password"));
     }
 }

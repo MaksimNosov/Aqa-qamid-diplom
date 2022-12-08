@@ -13,6 +13,10 @@ public class SQLHelper {
     private SQLHelper() {
     }
 
+    static String url = System.getProperty("db.url");
+    static String user = System.getProperty("db.user");
+    static String password = System.getProperty("db.password");
+
 //    private final static String dbUrlDefault = "jdbc:mysql://localhost:3306/db/DEFAULT";
 //
 //    public static String getDbUrl() {
@@ -26,7 +30,8 @@ public class SQLHelper {
     @SneakyThrows
     private static Connection getConnSQL() {
 //        return DriverManager.getConnection(System.getProperty("spring.datasource.url"), System.getProperty("spring.datasource.username"), System.getProperty("spring.datasource.password"));
-        return DriverManager.getConnection(System.getProperty("datasource"), "app", "pass");
+//        return DriverManager.getConnection(System.getProperty("datasource"), "app", "pass");
+        return DriverManager.getConnection(url, user, password);
     }
 
     @SneakyThrows
